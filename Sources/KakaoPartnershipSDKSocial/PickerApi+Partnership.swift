@@ -1,0 +1,34 @@
+/*
+  Copyright 2024 Kakao Corp.
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
+import Foundation
+import KakaoSDKFriend
+
+extension PickerApi {
+    /// 친구 피커 \
+    /// Friends picker
+    public func selectFriend(params: PickerFriendRequestParams, viewType: ViewType, completion: @escaping (SelectedUsers?, Error?) -> Void) {
+        prepareCallPickerApi { [weak self] error in
+            if let error {
+                completion(nil, error)
+                return
+            }
+
+            self?.____sf(params: params, viewType: viewType) { selectedUser, responseInfo, error in
+                completion(selectedUser, self?.castSdkError(responseInfo: responseInfo, error: error))
+            }
+        }
+    }
+}
